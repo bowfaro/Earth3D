@@ -1,0 +1,97 @@
+[
+  {
+    "id": "crust",
+    "name": "Vỏ Trái Đất",
+    "englishName": "Crust",
+    "depthFromKm": 0,
+    "depthToKm": 35,
+    "thicknessKm": 35,
+    "state": "Rắn",
+    "temperatureC": "Nhiệt độ bề mặt đến ~400°C",
+    "composition": "Khoáng vật silicat giàu Nhôm (Al), Silic (Si), Canxi (Ca), Kali (K). Gồm vỏ lục địa (granit) và vỏ đại dương (bazan).",
+    "description": "Lớp mỏng và ngoài cùng nhất của Trái Đất, nơi toàn bộ sinh quyển, lục địa và đại dương tồn tại. Vỏ Trái Đất cùng với phần trên cùng của manti tạo thành Thạch quyển (lithosphere) - bị vỡ thành các mảng kiến tạo liên tục dịch chuyển.",
+    "nodeNames": ["Plane.013", "Plane.012"],
+    "hasTectonicsLink": true,
+    "source": "USGS / NASA Earth Observatory",
+    "camera": {
+      "position": [14.0, -1.8, 3.5],
+      "target": [0.3, 0.4, 0.0]
+    }
+  },
+  {
+    "id": "upper-mantle",
+    "name": "Manti Trên",
+    "englishName": "Upper Mantle",
+    "depthFromKm": 35,
+    "depthToKm": 660,
+    "thicknessKm": 625,
+    "state": "Rắn và dẻo (Quyển mềm)",
+    "temperatureC": "500°C - 900°C",
+    "composition": "Chủ yếu là đá peridotit giàu silicat magnesi và sắt (olivine, pyroxene).",
+    "description": "Nằm ngay dưới vỏ Trái Đất. Phần dưới của manti trên là quyển mềm (asthenosphere) có tính dẻo quánh, nơi các dòng đối lưu nhiệt diễn ra chậm chạp và đẩy các mảng kiến tạo trôi dạt phía trên, sinh ra động đất và núi lửa.",
+    "nodeNames": ["Plane.011"],
+    "hasTectonicsLink": true,
+    "source": "USGS Interior of the Earth / Britannica Earth Science",
+    "camera": {
+      "position": [11.5, -1.5, 3.0],
+      "target": [0.3, 0.4, 0.0]
+    }
+  },
+  {
+    "id": "lower-mantle",
+    "name": "Manti Dưới",
+    "englishName": "Lower Mantle",
+    "depthFromKm": 660,
+    "depthToKm": 2890,
+    "thicknessKm": 2230,
+    "state": "Rắn (dưới áp lực cực lớn)",
+    "temperatureC": "1.000°C - 3.700°C",
+    "composition": "Khoáng vật bridgmanite ((Mg,Fe)SiO3) và ferropericlase, đặc sít và dẫn nhiệt tốt.",
+    "description": "Chiếm khoảng 55% thể tích toàn Trái Đất. Dù nhiệt độ rất cao, áp suất cực lớn (lên đến 136 GPa) giữ cho vật chất ở trạng thái rắn. Các khối nhiệt lớn từ ranh giới lõi có thể dâng lên xuyên qua tầng này tạo thành các điểm nóng núi lửa (hotspots).",
+    "nodeNames": ["Plane.010"],
+    "hasTectonicsLink": false,
+    "source": "USGS / American Geosciences Institute",
+    "camera": {
+      "position": [9.0, -1.2, 2.5],
+      "target": [0.3, 0.4, 0.0]
+    }
+  },
+  {
+    "id": "outer-core",
+    "name": "Lõi Ngoài",
+    "englishName": "Outer Core",
+    "depthFromKm": 2890,
+    "depthToKm": 5150,
+    "thicknessKm": 2260,
+    "state": "Lỏng",
+    "temperatureC": "4.000°C - 5.000°C",
+    "composition": "Hợp kim Sắt (Fe) và Niken (Ni) lỏng pha trộn các nguyên tố nhẹ (Lưu huỳnh S, Oxy O).",
+    "description": "Lớp kim loại nóng chảy có chuyển động đối lưu mãnh liệt kết hợp với sự tự quay của Trái Đất tạo nên hiệu ứng địa động lực học (geodynamo). Đây chính là nguồn gốc sinh ra từ trường Trái Đất, lá chắn bảo vệ sự sống khỏi bức xạ vũ trụ.",
+    "nodeNames": ["Plane.009"],
+    "hasTectonicsLink": false,
+    "source": "NASA Earth Science / USGS Geodynamo Studies",
+    "camera": {
+      "position": [7.0, -0.9, 1.8],
+      "target": [0.3, 0.4, 0.0]
+    }
+  },
+  {
+    "id": "inner-core",
+    "name": "Lõi Trong",
+    "englishName": "Inner Core",
+    "depthFromKm": 5150,
+    "depthToKm": 6371,
+    "thicknessKm": 1221,
+    "state": "Rắn",
+    "temperatureC": "5.200°C - 6.000°C (tương đương bề mặt Mặt Trời)",
+    "composition": "Hợp kim tinh thể Sắt - Niken nguyên khối siêu đặc.",
+    "description": "Tâm điểm của hành tinh. Mặc dù nhiệt độ cao đến mức có thể nung chảy mọi kim loại, nhưng áp suất khổng lồ tại tâm Trái Đất (~330-360 triệu atmosphere) ép chặt các nguyên tử lại, giữ cho lõi trong hoàn toàn ở trạng thái rắn kết tinh.",
+    "nodeNames": ["Plane.008"],
+    "hasTectonicsLink": false,
+    "source": "USGS / NASA planetary physics",
+    "camera": {
+      "position": [5.2, -0.6, 1.2],
+      "target": [0.3, 0.4, 0.0]
+    }
+  }
+]
