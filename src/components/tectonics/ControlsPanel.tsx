@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { FeedPeriod, FeedMagnitude } from "@/lib/usgs";
 
 interface ControlsPanelProps {
@@ -12,6 +12,8 @@ interface ControlsPanelProps {
   onToggleQuakes: (show: boolean) => void;
   showLabels: boolean;
   onToggleLabels: (show: boolean) => void;
+  showCountries: boolean;
+  onToggleCountries: (show: boolean) => void;
   period: FeedPeriod;
   onChangePeriod: (period: FeedPeriod) => void;
   magnitude: FeedMagnitude;
@@ -32,6 +34,8 @@ export function ControlsPanel({
   onToggleQuakes,
   showLabels,
   onToggleLabels,
+  showCountries,
+  onToggleCountries,
   period,
   onChangePeriod,
   magnitude,
@@ -42,202 +46,377 @@ export function ControlsPanel({
   isFallback,
   onSelectBoundaryType,
 }: ControlsPanelProps) {
+  const [showAdvanced, setShowAdvanced] = useState<boolean>(true);
+
+  // Quick comparison presets for students
+  const setComparisonPreset = (mode: "both" | "quakesOnly" | "boundariesOnly") => {
+    if (mode === "both") {
+      onToggleQuakes(true);
+      onToggleBoundaries(true);
+    } else if (mode === "quakesOnly") {
+      onToggleQuakes(true);
+      onToggleBoundaries(false);
+    } else {
+      onToggleQuakes(false);
+      onToggleBoundaries(true);
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-4 rounded-2xl border border-slate-800 bg-slate-900/85 backdrop-blur-md p-4 text-xs shadow-xl shadow-black/40">
-      {/* Layer Visibility Toggles */}
-      <div className="flex flex-col gap-2">
-        <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center justify-between">
-          <span>Lớp Bản Đồ</span>
+    <div className="flex flex-col gap-4 rounded-2xl border border-slate-800 bg-slate-900/90 backdrop-blur-md p-4 sm:p-5 text-xs shadow-xl shadow-black/40">
+      {/* 1. Header & One-Click Scientific Comparison Strip */}
+      <div className="flex flex-col gap-2.5">
+        <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+          <div>
+            <h3 className="font-bold text-white text-sm uppercase tracking-wider flex items-center gap-2">
+              <span>🗺️</span> Bật / Tắt Lớp Bản Đồ
+            </h3>
+            <p className="text-[11px] text-slate-400">
+              Đối chiếu vị trí động đất với ranh giới các mảng
+            </p>
+          </div>
           {isFallback && (
             <span className="text-[10px] text-amber-400 font-mono bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-              Snapshot offline
+              Bản lưu ngoại tuyến
             </span>
           )}
-        </h4>
+        </div>
 
-        <div className="grid grid-cols-2 gap-2">
-          <label className="flex items-center gap-2 p-2 rounded-xl bg-slate-950/60 border border-slate-800/80 cursor-pointer hover:bg-slate-800/40 select-none">
-            <input
-              type="checkbox"
-              checked={showBoundaries}
-              onChange={(e) => onToggleBoundaries(e.target.checked)}
-              className="rounded border-slate-700 text-rose-500 focus:ring-rose-500 bg-slate-900"
-            />
-            <span className="font-medium text-slate-200">Ranh giới mảng</span>
-          </label>
+        {/* Quick Comparison Buttons for Guided Learning */}
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-950/80 border border-slate-800">
+          <button
+            type="button"
+            onClick={() => setComparisonPreset("both")}
+            className={`flex-1 py-1.5 px-2 rounded-lg text-center font-medium transition-all cursor-pointer ${
+              showQuakes && showBoundaries
+                ? "bg-cyan-600 text-white font-bold shadow-sm"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+            title="Hiện cả động đất và ranh giới để so sánh tương quan"
+          >
+            🌐 Đối chiếu cả 2
+          </button>
+          <button
+            type="button"
+            onClick={() => setComparisonPreset("quakesOnly")}
+            className={`flex-1 py-1.5 px-2 rounded-lg text-center font-medium transition-all cursor-pointer ${
+              showQuakes && !showBoundaries
+                ? "bg-amber-600 text-white font-bold shadow-sm"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+            title="Chỉ hiện điểm động đất"
+          >
+            🔴 Chỉ động đất
+          </button>
+          <button
+            type="button"
+            onClick={() => setComparisonPreset("boundariesOnly")}
+            className={`flex-1 py-1.5 px-2 rounded-lg text-center font-medium transition-all cursor-pointer ${
+              !showQuakes && showBoundaries
+                ? "bg-rose-600 text-white font-bold shadow-sm"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+            title="Chỉ hiện đường ranh giới các mảng"
+          >
+            ⚡ Chỉ ranh giới
+          </button>
+        </div>
 
-          <label className="flex items-center gap-2 p-2 rounded-xl bg-slate-950/60 border border-slate-800/80 cursor-pointer hover:bg-slate-800/40 select-none">
-            <input
-              type="checkbox"
-              checked={showQuakes}
-              onChange={(e) => onToggleQuakes(e.target.checked)}
-              className="rounded border-slate-700 text-amber-500 focus:ring-amber-500 bg-slate-900"
-            />
-            <span className="font-medium text-slate-200">
-              Động đất ({quakeCount})
-            </span>
-          </label>
+        {/* Individual Layer Toggle Grid */}
+        <div className="grid grid-cols-2 gap-2 pt-1">
+          {/* Countries toggle */}
+          <button
+            type="button"
+            onClick={() => onToggleCountries(!showCountries)}
+            className={`p-2.5 rounded-xl border flex items-center gap-2.5 text-left transition-all cursor-pointer select-none ${
+              showCountries
+                ? "bg-emerald-500/15 border-emerald-500/50 text-emerald-200 shadow-sm"
+                : "bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <span className="text-lg">🚩</span>
+            <div>
+              <span className="font-semibold block text-xs">Quốc Gia</span>
+              <span className="text-[10px] opacity-75">
+                {showCountries ? "Đang hiện cờ" : "Đang tắt"}
+              </span>
+            </div>
+          </button>
 
-          <label className="flex items-center gap-2 p-2 rounded-xl bg-slate-950/60 border border-slate-800/80 cursor-pointer hover:bg-slate-800/40 select-none">
-            <input
-              type="checkbox"
-              checked={showPlates}
-              onChange={(e) => onTogglePlates(e.target.checked)}
-              className="rounded border-slate-700 text-cyan-500 focus:ring-cyan-500 bg-slate-900"
-            />
-            <span className="font-medium text-slate-200">Màu các mảng</span>
-          </label>
+          {/* Earthquakes toggle */}
+          <button
+            type="button"
+            onClick={() => onToggleQuakes(!showQuakes)}
+            className={`p-2.5 rounded-xl border flex items-center gap-2.5 text-left transition-all cursor-pointer select-none ${
+              showQuakes
+                ? "bg-amber-500/15 border-amber-500/50 text-amber-200 shadow-sm"
+                : "bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <span className="text-lg">🔴</span>
+            <div>
+              <span className="font-semibold block text-xs">Động Đất ({quakeCount})</span>
+              <span className="text-[10px] opacity-75">
+                {showQuakes ? "Dữ liệu USGS" : "Đang tắt"}
+              </span>
+            </div>
+          </button>
 
-          <label className="flex items-center gap-2 p-2 rounded-xl bg-slate-950/60 border border-slate-800/80 cursor-pointer hover:bg-slate-800/40 select-none">
-            <input
-              type="checkbox"
-              checked={showLabels}
-              onChange={(e) => onToggleLabels(e.target.checked)}
-              className="rounded border-slate-700 text-blue-500 focus:ring-blue-500 bg-slate-900"
-            />
-            <span className="font-medium text-slate-200">Tên mảng lớn</span>
-          </label>
+          {/* Plate boundaries toggle */}
+          <button
+            type="button"
+            onClick={() => onToggleBoundaries(!showBoundaries)}
+            className={`p-2.5 rounded-xl border flex items-center gap-2.5 text-left transition-all cursor-pointer select-none ${
+              showBoundaries
+                ? "bg-rose-500/15 border-rose-500/50 text-rose-200 shadow-sm"
+                : "bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <span className="text-lg">⚡</span>
+            <div>
+              <span className="font-semibold block text-xs">Đường Ranh Giới</span>
+              <span className="text-[10px] opacity-75">
+                {showBoundaries ? "3 loại ranh giới" : "Đang tắt"}
+              </span>
+            </div>
+          </button>
+
+          {/* Major plates names toggle */}
+          <button
+            type="button"
+            onClick={() => onToggleLabels(!showLabels)}
+            className={`p-2.5 rounded-xl border flex items-center gap-2.5 text-left transition-all cursor-pointer select-none ${
+              showLabels
+                ? "bg-blue-500/15 border-blue-500/50 text-blue-200 shadow-sm"
+                : "bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <span className="text-lg">🏷️</span>
+            <div>
+              <span className="font-semibold block text-xs">Tên Mảng</span>
+              <span className="text-[10px] opacity-75">
+                {showLabels ? "Thái Bình Dương, Âu-Á" : "Đang tắt"}
+              </span>
+            </div>
+          </button>
+
+          {/* Plate Colors toggle */}
+          <button
+            type="button"
+            onClick={() => onTogglePlates(!showPlates)}
+            className={`p-2.5 rounded-xl border flex items-center gap-2.5 text-left transition-all cursor-pointer select-none col-span-2 ${
+              showPlates
+                ? "bg-cyan-500/15 border-cyan-500/50 text-cyan-200 shadow-sm"
+                : "bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <span className="text-lg">🎨</span>
+            <div className="flex-1 flex items-center justify-between">
+              <div>
+                <span className="font-semibold block text-xs">Tô Màu Đa Giác Các Mảng (Thạch quyển)</span>
+                <span className="text-[10px] opacity-75">
+                  Phân biệt các mảng kiến tạo trôi dạt
+                </span>
+              </div>
+              <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-800 text-slate-200">
+                {showPlates ? "Đang bật" : "Đang tắt"}
+              </span>
+            </div>
+          </button>
         </div>
       </div>
 
-      {/* Earthquake Filters */}
+      {/* 2. Earthquake Filters */}
       {showQuakes && (
         <div className="flex flex-col gap-2.5 pt-2 border-t border-slate-800">
-          <h4 className="font-bold text-white text-xs uppercase tracking-wider">
-            Bộ Lọc Động Đất (USGS)
-          </h4>
+          <div className="flex items-center justify-between">
+            <h4 className="font-bold text-white text-xs uppercase tracking-wider flex items-center gap-1.5">
+              <span>📊</span> Lọc Dữ Liệu Động Đất
+            </h4>
+            <button
+              type="button"
+              onClick={() => setShowAdvanced(!showAdvanced)}
+              className="text-[11px] text-cyan-400 hover:text-cyan-300 underline cursor-pointer"
+            >
+              {showAdvanced ? "Thu gọn ▴" : "Mở rộng ▾"}
+            </button>
+          </div>
 
+          {/* Time & Magnitude Selectors */}
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <span className="text-[11px] text-slate-400 block mb-1">Thời gian:</span>
-              <select
-                value={period}
-                onChange={(e) => onChangePeriod(e.target.value as FeedPeriod)}
-                aria-label="Chọn khoảng thời gian động đất"
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-slate-200 focus:border-cyan-500 focus:outline-none"
-              >
-                <option value="day">24 giờ qua</option>
-                <option value="week">7 ngày qua (khuyên dùng)</option>
-                <option value="month">30 ngày qua</option>
-              </select>
+              <span className="text-[11px] text-slate-400 block mb-1">Khoảng thời gian:</span>
+              <div className="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => onChangePeriod("week")}
+                  className={`flex-1 py-1 text-center rounded-md font-medium text-xs transition-colors cursor-pointer ${
+                    period === "week" ? "bg-amber-500 text-slate-950 font-bold" : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  7 ngày
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onChangePeriod("day")}
+                  className={`flex-1 py-1 text-center rounded-md font-medium text-xs transition-colors cursor-pointer ${
+                    period === "day" ? "bg-amber-500 text-slate-950 font-bold" : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  24 giờ
+                </button>
+              </div>
             </div>
 
             <div>
               <span className="text-[11px] text-slate-400 block mb-1">Độ lớn tối thiểu:</span>
-              <select
-                value={magnitude}
-                onChange={(e) => onChangeMagnitude(e.target.value as FeedMagnitude)}
-                aria-label="Chọn độ lớn tối thiểu"
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-1.5 text-xs text-slate-200 focus:border-cyan-500 focus:outline-none"
-              >
-                <option value="4.5">M 4.5+ (mặc định)</option>
-                <option value="2.5">M 2.5+</option>
-                <option value="all">Tất cả độ lớn</option>
-              </select>
+              <div className="flex rounded-lg bg-slate-950 p-1 border border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => onChangeMagnitude("4.5")}
+                  className={`flex-1 py-1 text-center rounded-md font-medium text-xs transition-colors cursor-pointer ${
+                    magnitude === "4.5" ? "bg-rose-600 text-white font-bold" : "text-slate-400 hover:text-white"
+                  }`}
+                  title="Chỉ hiện động đất mạnh (M 4.5+)"
+                >
+                  M 4.5+
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onChangeMagnitude("2.5")}
+                  className={`flex-1 py-1 text-center rounded-md font-medium text-xs transition-colors cursor-pointer ${
+                    magnitude === "2.5" ? "bg-amber-600 text-white font-bold" : "text-slate-400 hover:text-white"
+                  }`}
+                  title="Hiện từ rung chấn vừa M 2.5+"
+                >
+                  M 2.5+
+                </button>
+              </div>
             </div>
           </div>
 
-          <div>
-            <span className="text-[11px] text-slate-400 block mb-1">Lọc theo độ sâu:</span>
-            <div className="grid grid-cols-4 gap-1 text-[11px]">
-              {(["all", "shallow", "intermediate", "deep"] as const).map((filter) => {
-                const labels: Record<string, string> = {
-                  all: "Tất cả",
-                  shallow: "Nông",
-                  intermediate: "Vừa",
-                  deep: "Sâu",
-                };
-                return (
+          {/* Depth Filter Tabs */}
+          {showAdvanced && (
+            <div className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 flex flex-col gap-1.5 animate-in fade-in duration-150">
+              <span className="text-[11px] text-slate-300 font-medium">Lọc theo tầng độ sâu chấn tiêu:</span>
+              <div className="grid grid-cols-4 gap-1 text-[11px]">
+                {(
+                  [
+                    { id: "all", label: "Tất cả" },
+                    { id: "shallow", label: "🟡 Nông" },
+                    { id: "intermediate", label: "🟠 Vừa" },
+                    { id: "deep", label: "🟣 Sâu" },
+                  ] as const
+                ).map((tab) => (
                   <button
-                    key={filter}
+                    key={tab.id}
                     type="button"
-                    onClick={() => onChangeDepthFilter(filter)}
-                    className={`py-1 rounded-md border text-center font-medium transition-colors cursor-pointer ${
-                      depthFilter === filter
-                        ? "bg-amber-500/20 text-amber-300 border-amber-500/40"
-                        : "bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200"
+                    onClick={() => onChangeDepthFilter(tab.id)}
+                    className={`py-1.5 rounded-md transition-colors cursor-pointer text-center font-medium ${
+                      depthFilter === tab.id
+                        ? "bg-cyan-600 text-white font-bold shadow-sm"
+                        : "bg-slate-900 text-slate-400 hover:text-white"
                     }`}
                   >
-                    {labels[filter]}
+                    {tab.label}
                   </button>
-                );
-              })}
+                ))}
+              </div>
             </div>
-          </div>
-
-          {quakeCount > 2000 && (
-            <p className="text-[11px] text-amber-400 bg-amber-500/10 p-2 rounded-lg border border-amber-500/20">
-              ⚠️ Số điểm đang lớn ({quakeCount} trận). Hãy tăng ngưỡng độ lớn lên M 4.5+ nếu thiết bị bị chậm.
-            </p>
           )}
+
+          {/* Color Legend with Depth & Mechanism */}
+          <div className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80 flex flex-col gap-1.5">
+            <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
+              Màu sắc theo độ sâu chấn tiêu:
+            </span>
+            <div className="grid grid-cols-3 gap-1 text-[11px] text-slate-300">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_6px_#fbbf24]" />
+                <span>Nông (&lt;70 km)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-orange-500 shadow-[0_0_6px_#f97316]" />
+                <span>Vừa (70–300 km)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-purple-400 shadow-[0_0_6px_#c084fc]" />
+                <span>Sâu (&gt;300 km)</span>
+              </div>
+            </div>
+            <p className="text-[10px] text-slate-400 italic mt-0.5">
+              💡 Chấm to hơn tương ứng với động đất có năng lượng giải phóng (độ lớn M) lớn hơn.
+            </p>
+          </div>
         </div>
       )}
 
-      {/* Legend: Boundary Types & Earthquake Depths */}
-      <div className="flex flex-col gap-2.5 pt-2 border-t border-slate-800">
-        <h4 className="font-bold text-white text-xs uppercase tracking-wider">
-          Chú Giải Khoa Học
-        </h4>
-
-        {/* Boundary Legend with distinct colors, symbols and patterns */}
-        <div className="flex flex-col gap-1.5 text-[11px]">
-          <span className="text-slate-400 font-medium">3 Loại Ranh Giới (bấm để xem sơ đồ):</span>
-
-          <button
-            type="button"
-            onClick={() => onSelectBoundaryType?.("convergent")}
-            className="flex items-center justify-between p-1.5 rounded-lg bg-slate-950/50 hover:bg-slate-800 text-left transition-colors cursor-pointer border border-slate-800/60"
-          >
-            <div className="flex items-center gap-2">
-              <span className="w-4 h-0.5 bg-rose-500 inline-block border-b-2 border-dashed border-rose-500" />
-              <span className="text-rose-400 font-semibold">⇶ Hội tụ (Hút chìm)</span>
-            </div>
-            <span className="text-[10px] text-slate-400">Va chạm / Biển chìm</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onSelectBoundaryType?.("divergent")}
-            className="flex items-center justify-between p-1.5 rounded-lg bg-slate-950/50 hover:bg-slate-800 text-left transition-colors cursor-pointer border border-slate-800/60"
-          >
-            <div className="flex items-center gap-2">
-              <span className="w-4 h-0.5 bg-sky-400 inline-block" />
-              <span className="text-sky-400 font-semibold">⇹ Phân kỳ (Tách giãn)</span>
-            </div>
-            <span className="text-[10px] text-slate-400">Sống núi đại dương</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => onSelectBoundaryType?.("transform")}
-            className="flex items-center justify-between p-1.5 rounded-lg bg-slate-950/50 hover:bg-slate-800 text-left transition-colors cursor-pointer border border-slate-800/60"
-          >
-            <div className="flex items-center gap-2">
-              <span className="w-4 h-0.5 bg-yellow-400 inline-block border-b-2 border-dotted border-yellow-400" />
-              <span className="text-yellow-400 font-semibold">⇅ Trượt ngang</span>
-            </div>
-            <span className="text-[10px] text-slate-400">Đứt gãy trượt</span>
-          </button>
-        </div>
-
-        {/* Quake Depth Legend */}
-        {showQuakes && (
-          <div className="flex flex-col gap-1 pt-1 text-[11px]">
-            <span className="text-slate-400 font-medium">Độ sâu chấn tiêu (Màu điểm):</span>
-            <div className="grid grid-cols-3 gap-1 text-[10px] text-center">
-              <div className="p-1 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-mono">
-                ● 0 - 70 km (Nông)
+      {/* 3. Boundary Type Guide Quick Access */}
+      {showBoundaries && (
+        <div className="flex flex-col gap-2 pt-2 border-t border-slate-800">
+          <h4 className="font-bold text-white text-xs uppercase tracking-wider">
+            3 Loại Ranh Giới Mảng Kiến Tạo
+          </h4>
+          <div className="flex flex-col gap-1.5 text-[11px]">
+            <button
+              type="button"
+              onClick={() => onSelectBoundaryType?.("convergent")}
+              className="p-2 rounded-lg bg-slate-950/60 hover:bg-slate-800/60 border border-slate-800 flex items-center justify-between transition-colors text-left cursor-pointer group"
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]" />
+                <div>
+                  <span className="font-semibold text-slate-200 group-hover:text-white block">
+                    Hội tụ (Hút chìm / Va chạm)
+                  </span>
+                  <span className="text-[10px] text-slate-400">
+                    Động đất mạnh ở mọi độ sâu, sóng thần
+                  </span>
+                </div>
               </div>
-              <div className="p-1 rounded bg-orange-500/10 text-orange-300 border border-orange-500/20 font-mono">
-                ● 70 - 300 km (Vừa)
+              <span className="text-[10px] text-rose-400 font-mono">Xem sơ đồ ➔</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onSelectBoundaryType?.("divergent")}
+              className="p-2 rounded-lg bg-slate-950/60 hover:bg-slate-800/60 border border-slate-800 flex items-center justify-between transition-colors text-left cursor-pointer group"
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-cyan-400 shadow-[0_0_8px_#38bdf8]" />
+                <div>
+                  <span className="font-semibold text-slate-200 group-hover:text-white block">
+                    Phân kỳ (Tách giãn đáy đại dương)
+                  </span>
+                  <span className="text-[10px] text-slate-400">
+                    Đá manti trồi lên, động đất nông
+                  </span>
+                </div>
               </div>
-              <div className="p-1 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 font-mono">
-                ● &gt; 300 km (Sâu)
+              <span className="text-[10px] text-cyan-400 font-mono">Xem sơ đồ ➔</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onSelectBoundaryType?.("transform")}
+              className="p-2 rounded-lg bg-slate-950/60 hover:bg-slate-800/60 border border-slate-800 flex items-center justify-between transition-colors text-left cursor-pointer group"
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-amber-400 shadow-[0_0_8px_#fbbf24]" />
+                <div>
+                  <span className="font-semibold text-slate-200 group-hover:text-white block">
+                    Trượt ngang (Trượt bằng / Đứt gãy)
+                  </span>
+                  <span className="text-[10px] text-slate-400">
+                    Mảng trượt cọ xát, động đất cạn
+                  </span>
+                </div>
               </div>
-            </div>
+              <span className="text-[10px] text-amber-400 font-mono">Xem sơ đồ ➔</span>
+            </button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

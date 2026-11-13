@@ -1,0 +1,352 @@
+[
+  {
+    "id": "vn",
+    "name": "Việt Nam",
+    "englishName": "Vietnam",
+    "flag": "🇻🇳",
+    "lat": 16.0,
+    "lon": 107.5,
+    "plate": "Mảng Âu - Á",
+    "seismicNote": "Nằm sâu trong nội mảng Âu - Á, xa các đới hút chìm lớn nên tương đối an toàn, ít động đất dữ dội. Chỉ có các đới đứt gãy cục bộ như đứt gãy sông Hồng, sông Mã."
+  },
+  {
+    "id": "jp",
+    "name": "Nhật Bản",
+    "englishName": "Japan",
+    "flag": "🇯🇵",
+    "lat": 36.2,
+    "lon": 138.2,
+    "plate": "Giao 4 mảng: Thái Bình Dương, Bắc Mỹ, Âu-Á, Philippine",
+    "seismicNote": "Nằm ngay điểm nóng Vành đai lửa với 4 mảng ép vào nhau, là quốc gia có nhiều động đất và sóng thần hàng đầu thế giới."
+  },
+  {
+    "id": "id",
+    "name": "Indonesia",
+    "englishName": "Indonesia",
+    "flag": "🇮🇩",
+    "lat": -0.78,
+    "lon": 113.9,
+    "plate": "Đới hút chìm Mảng Ấn-Úc chìm dưới Mảng Âu-Á",
+    "seismicNote": "Rãnh Sunda hoạt động mãnh liệt, nơi xảy ra trận sóng thần lịch sử 2004 và có hàng trăm núi lửa đang hoạt động."
+  },
+  {
+    "id": "ph",
+    "name": "Philippines",
+    "englishName": "Philippines",
+    "flag": "🇵🇭",
+    "lat": 12.8,
+    "lon": 121.7,
+    "plate": "Giao Mảng Philippine và Mảng Âu-Á",
+    "seismicNote": "Bị kẹp giữa rãnh Manila và rãnh Philippines, thường xuyên xảy ra động đất mạnh ở độ sâu trung bình và nông."
+  },
+  {
+    "id": "us",
+    "name": "Hoa Kỳ (Mỹ)",
+    "englishName": "United States",
+    "flag": "🇺🇸",
+    "lat": 37.0,
+    "lon": -95.7,
+    "plate": "Mảng Bắc Mỹ",
+    "seismicNote": "Bờ Tây (California, Alaska) nằm sát đứt gãy trượt San Andreas và đới Cascadia, có nguy cơ động đất rất cao."
+  },
+  {
+    "id": "tr",
+    "name": "Thổ Nhĩ Kỳ",
+    "englishName": "Turkey",
+    "flag": "🇹🇷",
+    "lat": 38.9,
+    "lon": 35.2,
+    "plate": "Mảng Anatolia (kẹp giữa Mảng Ả Rập và Mảng Âu-Á)",
+    "seismicNote": "Đứt gãy trượt ngang Bắc Anatolia và Đông Anatolia là nguyên nhân của nhiều trận động đất tàn khốc (như động đất 2023)."
+  },
+  {
+    "id": "cl",
+    "name": "Chile",
+    "englishName": "Chile",
+    "flag": "🇨🇱",
+    "lat": -35.6,
+    "lon": -71.5,
+    "plate": "Đới hút chìm Mảng Nazca cắm dưới Mảng Nam Mỹ",
+    "seismicNote": "Nơi xảy ra siêu động đất Valdivia 1960 (M 9.5) - trận động đất mạnh nhất lịch sử nhân loại từng ghi nhận."
+  },
+  {
+    "id": "nz",
+    "name": "New Zealand",
+    "englishName": "New Zealand",
+    "flag": "🇳🇿",
+    "lat": -40.9,
+    "lon": 174.8,
+    "plate": "Ranh giới Mảng Thái Bình Dương và Mảng Ấn-Úc",
+    "seismicNote": "Đới đứt gãy Alpine Fault cắt dọc đảo Nam, tạo nên dãy núi Alps và các trận địa chấn thường niên."
+  },
+  {
+    "id": "is",
+    "name": "Iceland",
+    "englishName": "Iceland",
+    "flag": "🇮🇸",
+    "lat": 64.9,
+    "lon": -19.0,
+    "plate": "Sống núi giữa Đại Tây Dương (Ranh giới Phân kỳ)",
+    "seismicNote": "Hai mảng Bắc Mỹ và Âu-Á tách xa nhau ~2.5 cm/năm, magma liên tục dâng trào sinh ra núi lửa phun trào và động đất nông."
+  },
+  {
+    "id": "cn",
+    "name": "Trung Quốc",
+    "englishName": "China",
+    "flag": "🇨🇳",
+    "lat": 35.8,
+    "lon": 104.1,
+    "plate": "Mảng Âu - Á",
+    "seismicNote": "Miền Tây Nam (Tứ Xuyên, Tây Tạng) chịu lực nén lớn khi mảng Ấn Độ húc vào châu Á, gây ra động đất đứt gãy mạnh."
+  },
+  {
+    "id": "in",
+    "name": "Ấn Độ",
+    "englishName": "India",
+    "flag": "🇮🇳",
+    "lat": 20.5,
+    "lon": 78.9,
+    "plate": "Mảng Ấn-Úc va chạm Mảng Âu-Á",
+    "seismicNote": "Sự va chạm lục địa liên tục dồn nén nâng cao dãy Himalaya và gây ra nhiều trận động đất lớn ở miền Bắc Ấn Độ và Nepal."
+  },
+  {
+    "id": "np",
+    "name": "Nepal",
+    "englishName": "Nepal",
+    "flag": "🇳🇵",
+    "lat": 28.3,
+    "lon": 84.1,
+    "plate": "Đới va chạm Ấn Độ - Á Âu",
+    "seismicNote": "Nằm ngay chân dãy Himalaya, liên tục bị ép nén, là nơi xảy ra trận động đất hủy diệt năm 2015."
+  },
+  {
+    "id": "th",
+    "name": "Thái Lan",
+    "englishName": "Thailand",
+    "flag": "🇹🇭",
+    "lat": 15.8,
+    "lon": 100.9,
+    "plate": "Mảng Âu - Á",
+    "seismicNote": "Thuộc nội mảng ổn định, ít động đất nguy hiểm, tuy nhiên các đứt gãy ở miền Bắc và Myanmar lân cận có thể gây rung lắc nhẹ."
+  },
+  {
+    "id": "la",
+    "name": "Lào",
+    "englishName": "Laos",
+    "flag": "🇱🇦",
+    "lat": 19.8,
+    "lon": 102.5,
+    "plate": "Mảng Âu - Á",
+    "seismicNote": "Nội mảng ổn định, thỉnh thoảng có các chấn động nhẹ dọc đới đứt gãy Tây Bắc."
+  },
+  {
+    "id": "kh",
+    "name": "Campuchia",
+    "englishName": "Cambodia",
+    "flag": "🇰🇭",
+    "lat": 12.5,
+    "lon": 104.9,
+    "plate": "Mảng Âu - Á",
+    "seismicNote": "Địa tầng cổ vững chắc, hầu như không có hoạt động địa chấn đáng kể."
+  },
+  {
+    "id": "my",
+    "name": "Malaysia",
+    "englishName": "Malaysia",
+    "flag": "🇲🇾",
+    "lat": 4.2,
+    "lon": 101.9,
+    "plate": "Mảng Âu - Á",
+    "seismicNote": "Bán đảo Malaysia yên tĩnh, vùng Sabah trên đảo Borneo thỉnh thoảng có chấn động do ảnh hưởng gần mảng Philippine."
+  },
+  {
+    "id": "mm",
+    "name": "Myanmar",
+    "englishName": "Myanmar",
+    "flag": "🇲🇲",
+    "lat": 21.9,
+    "lon": 95.9,
+    "plate": "Đới đứt gãy Sagaing (Trượt ngang)",
+    "seismicNote": "Đới đứt gãy Sagaing cắt dọc đất nước có mức độ hoạt động địa chấn cao với nhiều trận động đất mạnh."
+  },
+  {
+    "id": "kr",
+    "name": "Hàn Quốc",
+    "englishName": "South Korea",
+    "flag": "🇰🇷",
+    "lat": 35.9,
+    "lon": 127.7,
+    "plate": "Mảng Âu - Á",
+    "seismicNote": "Nằm xa rãnh hút chìm hơn Nhật Bản nên ít động đất mạnh, song vẫn có một số đứt gãy nội mảng ở bờ Đông Nam (Gyeongju, Pohang)."
+  },
+  {
+    "id": "tw",
+    "name": "Đài Loan",
+    "englishName": "Taiwan",
+    "flag": "🇹🇼",
+    "lat": 23.6,
+    "lon": 120.9,
+    "plate": "Giao Mảng Philippine và Mảng Âu-Á",
+    "seismicNote": "Mảng Philippine ép vào mảng Á-Âu tạo nên dãy núi Trung tâm và các trận động đất thường xuyên (như Hualien)."
+  },
+  {
+    "id": "au",
+    "name": "Úc (Australia)",
+    "englishName": "Australia",
+    "flag": "🇦🇺",
+    "lat": -25.2,
+    "lon": 133.7,
+    "plate": "Trung tâm Mảng Ấn - Úc",
+    "seismicNote": "Lục địa cổ nằm giữa mảng kiến tạo, là một trong những khu vực yên bình nhất về mặt địa chấn."
+  },
+  {
+    "id": "pg",
+    "name": "Papua New Guinea",
+    "englishName": "Papua New Guinea",
+    "flag": "🇵🇬",
+    "lat": -6.3,
+    "lon": 143.9,
+    "plate": "Ranh giới Mảng Ấn-Úc và Mảng Thái Bình Dương",
+    "seismicNote": "Vùng va chạm kiến tạo phức tạp, có mật độ động đất lớn và sâu rất dày đặc trên thế giới."
+  },
+  {
+    "id": "mx",
+    "name": "Mexico",
+    "englishName": "Mexico",
+    "flag": "🇲🇽",
+    "lat": 23.6,
+    "lon": -102.5,
+    "plate": "Đới hút chìm Mảng Cocos dưới Mảng Bắc Mỹ",
+    "seismicNote": "Bờ biển Thái Bình Dương thường xuyên xảy ra động đất dữ dội, lớp đất sét hồ ngầm cổ ở Mexico City làm khuếch đại sóng rung."
+  },
+  {
+    "id": "pe",
+    "name": "Peru",
+    "englishName": "Peru",
+    "flag": "🇵🇪",
+    "lat": -9.1,
+    "lon": -75.0,
+    "plate": "Đới hút chìm Mảng Nazca",
+    "seismicNote": "Mảng Nazca chìm xuống tạo nên dãy Andes hùng vĩ và nhiều trận động đất lớn lịch sử."
+  },
+  {
+    "id": "ec",
+    "name": "Ecuador",
+    "englishName": "Ecuador",
+    "flag": "🇪🇨",
+    "lat": -1.8,
+    "lon": -78.1,
+    "plate": "Đới hút chìm Mảng Nazca",
+    "seismicNote": "Nằm ngay trên đới hút chìm, tập trung nhiều núi lửa hoạt động mạnh (Cotopaxi, Tungurahua) và địa chấn cao."
+  },
+  {
+    "id": "br",
+    "name": "Brazil",
+    "englishName": "Brazil",
+    "flag": "🇧🇷",
+    "lat": -14.2,
+    "lon": -51.9,
+    "plate": "Trung tâm Mảng Nam Mỹ",
+    "seismicNote": "Nền địa chất cổ ổn định, xa các rìa mảng nên gần như không có động đất gây hại."
+  },
+  {
+    "id": "ca",
+    "name": "Canada",
+    "englishName": "Canada",
+    "flag": "🇨🇦",
+    "lat": 56.1,
+    "lon": -106.3,
+    "plate": "Mảng Bắc Mỹ",
+    "seismicNote": "Bờ Tây (British Columbia) nằm trong vùng đới Cascadia có nguy cơ động đất lớn, trong khi phần còn lại rất yên tĩnh."
+  },
+  {
+    "id": "ru",
+    "name": "Nga",
+    "englishName": "Russia",
+    "flag": "🇷🇺",
+    "lat": 61.5,
+    "lon": 105.3,
+    "plate": "Mảng Âu - Á & Mảng Bắc Mỹ",
+    "seismicNote": "Bán đảo Kamchatka và quần đảo Kuril nằm trên Vành đai lửa có hoạt động địa chấn và núi lửa cực kỳ dữ dội."
+  },
+  {
+    "id": "it",
+    "name": "Ý (Italy)",
+    "englishName": "Italy",
+    "flag": "🇮🇹",
+    "lat": 41.8,
+    "lon": 12.5,
+    "plate": "Mảng Á-Âu và Mảng vi mô Apulia",
+    "seismicNote": "Sự chèn ép giữa mảng Phi và Âu-Á tạo nên dãy núi Apennines và núi lửa Etna, Vesuvius với nhiều trận động đất nông."
+  },
+  {
+    "id": "gr",
+    "name": "Hy Lạp",
+    "englishName": "Greece",
+    "flag": "🇬🇷",
+    "lat": 39.0,
+    "lon": 22.0,
+    "plate": "Đới hút chìm Vòng cung Hellenic",
+    "seismicNote": "Vùng biển Aegean là khu vực có hoạt động địa chấn dày đặc nhất châu Âu."
+  },
+  {
+    "id": "gb",
+    "name": "Vương quốc Anh",
+    "englishName": "United Kingdom",
+    "flag": "🇬🇧",
+    "lat": 55.3,
+    "lon": -3.4,
+    "plate": "Mảng Âu - Á",
+    "seismicNote": "Nằm xa ranh giới mảng, chỉ ghi nhận các rung chấn vi mô không đáng kể."
+  },
+  {
+    "id": "fr",
+    "name": "Pháp",
+    "englishName": "France",
+    "flag": "🇫🇷",
+    "lat": 46.2,
+    "lon": 2.2,
+    "plate": "Mảng Âu - Á",
+    "seismicNote": "Hoạt động địa chấn yếu đến trung bình, chỉ tập trung nhẹ tại dãy Alps và Pyrenees."
+  },
+  {
+    "id": "eg",
+    "name": "Ai Cập",
+    "englishName": "Egypt",
+    "flag": "🇪🇬",
+    "lat": 26.8,
+    "lon": 30.8,
+    "plate": "Mảng Châu Phi",
+    "seismicNote": "Vịnh Aqaba và thung lũng Biển Đỏ là đới tách giãn kiến tạo, thỉnh thoảng có động đất vừa."
+  },
+  {
+    "id": "za",
+    "name": "Nam Phi",
+    "englishName": "South Africa",
+    "flag": "🇿🇦",
+    "lat": -30.5,
+    "lon": 22.9,
+    "plate": "Mảng Châu Phi",
+    "seismicNote": "Địa tầng cổ thềm lục địa rất ổn định, động đất chủ yếu do sụt lún hầm mỏ sâu nhân tạo."
+  },
+  {
+    "id": "ir",
+    "name": "Iran",
+    "englishName": "Iran",
+    "flag": "🇮🇷",
+    "lat": 32.4,
+    "lon": 53.6,
+    "plate": "Mảng Ả Rập va chạm Mảng Âu-Á",
+    "seismicNote": "Dãy núi Zagros và Alborz liên tục bị nén ép, là một trong những vùng động đất nguy hiểm nhất Trung Đông."
+  },
+  {
+    "id": "sa",
+    "name": "Ả Rập Xê Út",
+    "englishName": "Saudi Arabia",
+    "flag": "🇸🇦",
+    "lat": 23.8,
+    "lon": 45.0,
+    "plate": "Mảng Ả Rập",
+    "seismicNote": "Khu vực ven Biển Đỏ có hoạt động tách giãn mảng và núi lửa cổ Harrat."
+  }
+]

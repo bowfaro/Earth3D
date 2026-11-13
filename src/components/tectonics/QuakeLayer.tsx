@@ -40,21 +40,25 @@ export function QuakeLayer({
     validQuakes.forEach((q, i) => {
       const pos = latLonToVector3(q.lat, q.lon, radius);
 
-      // Scale by magnitude (e.g. mag 4.5 -> ~0.02, mag 7+ -> ~0.045)
-      const scale = Math.max(0.012, 0.008 * Math.pow(1.3, q.mag - 3));
+      // Distinct scaling by magnitude: M4.5 = ~0.02, M6 = ~0.045, M7+ = ~0.075
+      const baseScale = q.mag >= 7.0 ? 0.038 : q.mag >= 5.5 ? 0.026 : 0.018;
+      const magFactor = Math.pow(1.28, Math.max(0, q.mag - 4));
+      const scale = THREE.MathUtils.clamp(baseScale * magFactor, 0.014, 0.08);
 
       dummyMatrix.makeTranslation(pos.x, pos.y, pos.z);
-      // Scale uniformly
       dummyMatrix.scale(new THREE.Vector3(scale, scale, scale));
       meshRef.current?.setMatrixAt(i, dummyMatrix);
 
-      // Color by depth category
+      // Color by depth category:
+      // Shallow (<70km): Amber / Gold (Vỏ & Thạch quyển trên)
+      // Intermediate (70-300km): Vivid Crimson / Orange (Đới hút chìm)
+      // Deep (>300km): Neon Violet / Purple (Manti sâu)
       if (q.depthCategory === "shallow") {
-        dummyColor.set("#fbbf24"); // Amber yellow
+        dummyColor.set("#fbbf24");
       } else if (q.depthCategory === "intermediate") {
-        dummyColor.set("#f97316"); // Vivid orange
+        dummyColor.set("#f97316");
       } else {
-        dummyColor.set("#c084fc"); // Purple / Violet
+        dummyColor.set("#c084fc");
       }
 
       meshRef.current?.setColorAt(i, dummyColor);
@@ -70,6 +74,7 @@ export function QuakeLayer({
 
   return (
     <instancedMesh
+      key={`quakes-mesh-${validQuakes.length}`}
       ref={meshRef}
       args={[undefined, undefined, validQuakes.length]}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -87,11 +92,12 @@ export function QuakeLayer({
         document.body.style.cursor = "auto";
       }}
     >
-      <sphereGeometry args={[1, 12, 12]} />
+      <sphereGeometry args={[1, 14, 14]} />
       <meshStandardMaterial
-        roughness={0.3}
+        roughness={0.25}
         metalness={0.2}
-        emissive="#000000"
+        emissive="#1e1b4b"
+        emissiveIntensity={0.4}
       />
     </instancedMesh>
   );

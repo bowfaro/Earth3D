@@ -1,0 +1,646 @@
+/* Scoped styles for Earth Structure 3D Specimen UI (from Cấu tạo Trái Đất 3D.html) */
+
+.earth-struct-container {
+  --bg: #0d1319;
+  --surface: #141d26;
+  --ink: #e4ebf1;
+  --muted: #93a3b0;
+  --line: #25323e;
+  --accent: #6aaee9;
+  --accent-ink: #07121c;
+  --stage-a: #1c2834;
+  --stage-b: #0a0f14;
+  --l-crust: #a48a74;
+  --l-mantle: #e2603a;
+  --l-outer: #f2a33a;
+  --l-inner: #ecd27a;
+  --font-display: "Literata", Georgia, "Times New Roman", serif;
+  --font-body: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
+
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+@media (min-width: 1024px) {
+  .earth-struct-container {
+    grid-template-columns: minmax(0, 1fr) 380px;
+    align-items: start;
+  }
+}
+
+.earth-struct-viewer-wrap {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.earth-struct-viewer {
+  position: relative;
+  height: clamp(440px, 64vh, 680px);
+  border-radius: 16px;
+  overflow: hidden;
+  background: radial-gradient(120% 90% at 42% 40%, var(--stage-a) 0%, var(--stage-b) 100%);
+  border: 1px solid var(--line);
+  touch-action: none;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+}
+
+.earth-struct-viewer canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+}
+
+.earth-struct-viewer canvas:active {
+  cursor: grabbing;
+}
+
+.earth-struct-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.earth-struct-lines line {
+  stroke: var(--ink);
+  stroke-opacity: 0.65;
+  stroke-width: 1.4;
+  stroke-dasharray: 3 3;
+}
+
+.earth-struct-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.earth-struct-caption {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  display: grid;
+  gap: 2px;
+  pointer-events: none;
+  background: rgba(20, 29, 38, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px 14px;
+  max-width: calc(100% - 28px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.earth-struct-caption .step {
+  font-family: var(--font-data);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.earth-struct-caption .name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+.earth-struct-caption .note {
+  font-size: 11.5px;
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+.earth-struct-hint {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  font-size: 11.5px;
+  color: var(--muted);
+  pointer-events: none;
+  background: rgba(13, 19, 25, 0.7);
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.earth-struct-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: var(--c);
+  border: 2px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--ink), 0 0 10px var(--c);
+  transition: opacity 0.35s, transform 0.1s;
+  pointer-events: none;
+}
+
+.earth-struct-lbl {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.35s;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--c);
+  border-radius: 8px;
+  padding: 6px 12px 6px 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.earth-struct-lbl .num,
+.earth-struct-dot .num {
+  font-family: var(--font-data);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.earth-struct-lbl .num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--c);
+  color: #fff;
+  flex: none;
+}
+
+.earth-struct-lbl b {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.earth-struct-lbl small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.earth-struct-dot .num {
+  display: none;
+}
+
+.earth-struct-compact .earth-struct-lbl {
+  display: none;
+}
+
+.earth-struct-compact .earth-struct-lines {
+  display: none;
+}
+
+.earth-struct-compact .earth-struct-dot {
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+}
+
+.earth-struct-compact .earth-struct-dot .num {
+  display: block;
+}
+
+.earth-struct-off {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+/* Controls */
+.earth-struct-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(20, 29, 38, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.earth-struct-stepper {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.earth-struct-stepper button {
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 6px 11px 6px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  transition: all 0.2s;
+}
+
+.earth-struct-stepper button:hover {
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.earth-struct-stepper button .n {
+  font-family: var(--font-data);
+  font-size: 11px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.earth-struct-stepper button[aria-current="step"] {
+  border-color: var(--accent);
+  background: rgba(106, 174, 233, 0.12);
+  color: #ffffff;
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.earth-struct-stepper button[aria-current="step"] .n {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.earth-struct-stepper button.done .n {
+  background: color-mix(in srgb, var(--accent) 30%, var(--bg));
+  color: var(--ink);
+}
+
+.earth-struct-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.earth-struct-btn {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  transition: all 0.2s;
+}
+
+.earth-struct-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: rgba(106, 174, 233, 0.1);
+  color: #fff;
+}
+
+.earth-struct-btn svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+
+.earth-struct-btn.primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+  min-width: 180px;
+  justify-content: center;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(106, 174, 233, 0.3);
+}
+
+.earth-struct-btn.primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.earth-struct-btn.icon {
+  padding: 8px 10px;
+}
+
+.earth-struct-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.earth-struct-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.earth-struct-toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.earth-struct-sw {
+  width: 34px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--line);
+  position: relative;
+  transition: background 0.2s;
+  flex: none;
+}
+
+.earth-struct-sw::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.earth-struct-toggle input:checked + .earth-struct-sw {
+  background: var(--accent);
+}
+
+.earth-struct-toggle input:checked + .earth-struct-sw::after {
+  transform: translateX(14px);
+}
+
+/* Panel */
+.earth-struct-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.earth-struct-panel h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 21px;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.earth-struct-panel .en {
+  font-family: var(--font-data);
+  font-size: 11.5px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+.earth-struct-panel p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.earth-struct-ptitle {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.earth-struct-chip {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--c);
+  flex: none;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2), 0 0 8px var(--c);
+}
+
+dl.earth-struct-facts {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 7px 14px;
+  font-size: 13.5px;
+}
+
+dl.earth-struct-facts dt {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+dl.earth-struct-facts dd {
+  margin: 0;
+  color: var(--ink);
+}
+
+.earth-struct-num-data {
+  font-family: var(--font-data);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  color: #ffffff;
+}
+
+.earth-struct-fact {
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--c) 14%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--c) 35%, var(--line));
+  color: #ffffff;
+  line-height: 1.5;
+}
+
+.earth-struct-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.earth-struct-list li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  font-size: 13.5px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(13, 19, 25, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.earth-struct-list .k {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--c);
+  color: #fff;
+  font-family: var(--font-data);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.earth-struct-list .s {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: right;
+}
+
+.earth-struct-sub {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+}
+
+.earth-struct-ruler {
+  display: grid;
+  gap: 6px;
+  padding-top: 4px;
+}
+
+.earth-struct-bar {
+  display: flex;
+  height: 18px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.earth-struct-bar span {
+  background: var(--c);
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+.earth-struct-bar span.dim {
+  opacity: 0.25;
+}
+
+.earth-struct-bar span.crust {
+  min-width: 4px;
+}
+
+.earth-struct-ticks {
+  position: relative;
+  height: 28px;
+  font-family: var(--font-data);
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.earth-struct-ticks span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.earth-struct-ticks span:first-child {
+  transform: none;
+  text-align: left;
+}
+
+.earth-struct-ticks span:last-child {
+  transform: translateX(-100%);
+  text-align: right;
+}
+
+table.earth-struct-sum {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table.earth-struct-sum th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 11.5px;
+  padding: 0 6px 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+table.earth-struct-sum td {
+  padding: 8px 6px 8px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+table.earth-struct-sum tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .earth-struct-viewer {
+    height: 440px;
+  }
+  .earth-struct-btn.primary {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+  .earth-struct-stepper button .t {
+    display: none;
+  }
+  .earth-struct-stepper button {
+    padding: 6px;
+  }
+  .earth-struct-hint {
+    display: none;
+  }
+}
