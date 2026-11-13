@@ -1,0 +1,41 @@
+[
+  {
+    "id": "divergent",
+    "name": "Ranh Giới Phân Kỳ (Tách Giãn)",
+    "englishName": "Divergent Boundary",
+    "symbol": "⇹",
+    "color": "#38bdf8",
+    "strokePattern": "solid",
+    "summary": "Hai mảng kiến tạo tách rời nhau ra, nham thạch trồi lên tạo vỏ mới.",
+    "mechanism": "Khi các dòng đối lưu nhiệt ở quyển mềm (manti trên) dâng lên, chúng kéo hai mảng dịch chuyển ra xa nhau. Vỏ Trái Đất nứt vỡ, magma trồi lên tiếp xúc với nước biển lạnh và đông kết tạo thành lớp vỏ đại dương mới trẻ và mỏng.",
+    "earthquakeFeatures": "Động đất chủ yếu ở độ sâu nông (< 30 km), xuất hiện do đứt gãy sụt lở khi đá bị kéo dãn. Động đất ở đây thường có độ lớn vừa phải và xảy ra thường xuyên.",
+    "examples": "Sống núi giữa Đại Tây Dương (Mid-Atlantic Ridge), Đới tách giãn Đông Phi (East African Rift).",
+    "source": "USGS 'This Dynamic Earth' / PB2002 (OSR & CRB)"
+  },
+  {
+    "id": "convergent",
+    "name": "Ranh Giới Hội Tụ (Hút Chìm / Va Chạm)",
+    "englishName": "Convergent Boundary",
+    "symbol": "⇶",
+    "color": "#f43f5e",
+    "strokePattern": "dashed",
+    "summary": "Hai mảng đâm vào nhau: mảng nặng chìm xuống hoặc dồn ứ tạo núi cao.",
+    "mechanism": "Hai mảng chuyển động đối đầu. Nếu là mảng đại dương gặp mảng lục địa, mảng đại dương nặng hơn sẽ bị hút chìm xuống dưới manti (đới hút chìm - subduction zone). Nếu hai mảng lục địa va vào nhau, vỏ đá bị nén ép dữ dội tạo nên các dãy núi cao chọc trời.",
+    "earthquakeFeatures": "Đặc trưng bởi động đất ở đủ mọi độ sâu: từ nông, trung bình đến cực sâu (> 300 - 700 km) dọc theo mặt trượt hút chìm Wadati-Benioff. Đây là nơi xảy ra các siêu địa chấn (megathrust) và sóng thần khủng khiếp nhất hành tinh.",
+    "examples": "Rãnh Mariana, Vành đai lửa Thái Bình Dương (Nhật Bản, Chile, Indonesia), Dãy Himalaya (va chạm Ấn Độ - Á-Âu).",
+    "source": "USGS / Peter Bird 2003 (SUB, OCB, CCB)"
+  },
+  {
+    "id": "transform",
+    "name": "Ranh Giới Trượt Ngang (Chuyển Dạng)",
+    "englishName": "Transform Fault Boundary",
+    "symbol": "⇅",
+    "color": "#facc15",
+    "strokePattern": "dotted",
+    "summary": "Hai mảng trượt ngang qua nhau, tích tụ ma sát rồi giải phóng đột ngột.",
+    "mechanism": "Hai mảng trượt song song ngược chiều (hoặc cùng chiều nhưng khác vận tốc). Vỏ Trái Đất không bị tạo mới cũng không bị phá hủy, nhưng bề mặt tiếp xúc gồ ghề khiến chúng bị 'kẹt cứng'. Lực đẩy manti vẫn tiếp tục ép, làm đá bị uốn biến dạng đàn hồi cho tới khi vượt giới hạn bền thì đứt vỡ tức thì.",
+    "earthquakeFeatures": "Hầu như 100% là động đất nông (< 25 km). Vì chấn tiêu ở rất gần mặt đất, sóng địa chấn truyền thẳng lên bề mặt với năng lượng gần như nguyên vẹn, gây rung chấn hủy diệt lớn tại các vùng dân cư trên cạn.",
+    "examples": "Đứt gãy San Andreas (California, Hoa Kỳ), Đứt gãy Bắc Anatolia (Thổ Nhĩ Kỳ), Đứt gãy Alpine (New Zealand).",
+    "source": "USGS Earthquake Science / PB2002 (OTF & CTF)"
+  }
+]

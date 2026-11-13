@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Nhiệm vụ 1: Động đất có xảy ra ngẫu nhiên khắp nơi không?",
+    "prompt": "Hãy bật lớp 'Động đất' và tắt lớp 'Ranh giới mảng'. Quan sát toàn bộ quả cầu: Các chấm động đất có rải đều khắp bề mặt Trái Đất không?",
+    "hint": "Xoay địa cầu một vòng và để ý các đại dương lớn, các lục địa xem mật độ chấm tập trung hay phân tán.",
+    "solution": "Động đất KHÔNG hề phân bố ngẫu nhiên hay đồng đều. Chúng xếp thành những dải hẹp, uốn lượn rõ rệt bao quanh các khối lớn của vỏ Trái Đất.",
+    "actionTip": "Bật lại ranh giới mảng để kiểm chứng điều kỳ diệu ở nhiệm vụ tiếp theo!"
+  },
+  {
+    "id": 2,
+    "title": "Nhiệm vụ 2: Mối liên hệ giữa Động đất và Ranh giới mảng",
+    "prompt": "Bây giờ hãy bật cả 'Động đất' và 'Ranh giới mảng'. Bạn nhận thấy các chấm động đất trùng khớp với cấu trúc nào?",
+    "hint": "Nhìn vào khu vực bao quanh đại dương lớn nhất thế giới (Thái Bình Dương).",
+    "solution": "Hầu như toàn bộ các trận động đất đều nằm tập trung chính xác dọc theo ranh giới giữa các mảng kiến tạo! Khu vực viền quanh Thái Bình Dương tạo thành một vòng cung dày đặc các trận địa chấn và núi lửa, được các nhà khoa học gọi là 'Vành đai lửa' (Ring of Fire).",
+    "actionTip": "Động đất xảy ra do sự tương tác, ma sát và va chạm liên tục giữa các mảng kiến tạo khi chúng dịch chuyển."
+  },
+  {
+    "id": 3,
+    "title": "Nhiệm vụ 3: Động đất nông vs Động đất sâu",
+    "prompt": "So sánh màu sắc độ sâu của động đất ở vùng Hội tụ (màu đỏ) so với vùng Phân kỳ (màu xanh dương).",
+    "hint": "Xem chú giải: Màu vàng/cam là động đất nông, màu tím/đỏ thẫm là động đất sâu (> 300 km).",
+    "solution": "Ở các đới phân kỳ (như sống núi giữa Đại Tây Dương), gần như 100% động đất là nông (< 70 km). Ngược lại, chỉ tại các đới hội tụ hút chìm (như Nhật Bản, Tonga, Nam Mỹ), bạn mới thấy các chấm màu đậm ở độ sâu 300 – 600 km vì mảng đại dương đang cắm sâu vào lòng manti!",
+    "actionTip": "Độ sâu của động đất vạch ra đường đi của mảng kiến tạo đang chìm vào lòng đất."
+  },
+  {
+    "id": 4,
+    "title": "Nhiệm vụ 4: Vùng ranh giới Trượt ngang (Transform Fault)",
+    "prompt": "Tìm dải màu vàng trên bờ biển phía Tây Bắc Mỹ (khu vực California - Đứt gãy San Andreas). Độ sâu động đất ở đây thế nào?",
+    "hint": "Bấm vào các chấm động đất quanh khu vực này để xem thẻ thông tin chi tiết.",
+    "solution": "Tại các đới trượt ngang, động đất hầu như luôn rất nông (dưới 20 - 30 km). Vì chấn tiêu nông ngay sát bề mặt và nằm gần các đô thị, năng lượng rung chấn không bị giảm nhiều, có thể gây thiệt hại nặng nề dù độ lớn không bằng siêu động đất hút chìm.",
+    "actionTip": "Đá bị mài miết và kẹt cứng, tích lũy thế năng đàn hồi rồi giải phóng đột ngột."
+  },
+  {
+    "id": 5,
+    "title": "Nhiệm vụ 5: Vị trí của Việt Nam trên bản đồ kiến tạo",
+    "prompt": "Tìm vị trí khu vực Việt Nam và Biển Đông trên địa cầu 3D. Nhận xét vị trí này so với ranh giới các mảng lớn.",
+    "hint": "Việt Nam nằm trọn trong mảng Âu - Á (Eurasian Plate), phía đông nam tiếp giáp Biển Đông.",
+    "solution": "Việt Nam nằm tương đối sâu bên trong phần nội mảng của mảng Âu-Á, cách khá xa các ranh giới hút chìm dữ dội của vành đai lửa (như rãnh Manila ở Philippines hay đới hút chìm Sunda ở Indonesia). Do đó, Việt Nam có tần suất và cường độ động đất mạnh thấp hơn rất nhiều so với các quốc gia lân cận nằm ngay trên ranh giới mảng.",
+    "actionTip": "Tuy nhiên, các đới đứt gãy nội mảng cổ (như đới đứt gãy Sông Hồng, Sông Mã, Điện Biên) vẫn có thể gây ra các trận động đất vừa và nhỏ."
+  }
+]

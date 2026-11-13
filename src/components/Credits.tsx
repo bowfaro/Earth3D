@@ -15,14 +15,14 @@ export function Credits() {
 
         <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-4 gap-y-1 text-slate-400">
           <span>
-            3D Model:{" "}
+            Mô hình 3D:{" "}
             <a
               href="https://sketchfab.com/3d-models/earth-core-7bb72849e81f4bfab1a77a059fb422b3"
               target="_blank"
               rel="noopener noreferrer"
               className="text-amber-400 hover:text-amber-300 underline underline-offset-2 transition-colors font-medium"
             >
-              Earth Core by saVRee on Sketchfab
+              Earth Core Three.js (Cấu trúc tham khảo saVRee)
             </a>
           </span>
           <span className="text-slate-700">|</span>

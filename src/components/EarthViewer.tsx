@@ -1,191 +1,186 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { useSketchfab } from "@/hooks/useSketchfab";
-import { DEFAULT_CAMERA, LAYER_NODE_MAP } from "@/lib/sketchfab";
+import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import { LayerData } from "./LayerCard";
+
+// Dynamic import with ssr: false to guarantee client-only WebGL initialization
+const EarthCore3D = dynamic(
+  () => import("./core/EarthCore3D").then((m) => m.EarthCore3D),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full flex flex-col items-center justify-center gap-3">
+        <div className="w-10 h-10 border-2 border-amber-500/20 border-t-amber-400 rounded-full animate-spin" />
+        <p className="text-xs text-slate-300">Đang khởi tạo đồ họa 3D Lõi Trái Đất...</p>
+      </div>
+    ),
+  }
+);
 
 interface EarthViewerProps {
   selectedLayer: LayerData | null;
   isolateMode: boolean;
   resetTrigger: number;
+  onSelectLayer?: (layer: LayerData) => void;
+  layers?: LayerData[];
 }
 
 export function EarthViewer({
   selectedLayer,
   isolateMode,
-  resetTrigger,
+  onSelectLayer,
+  layers,
 }: EarthViewerProps) {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [userLoaded, setUserLoaded] = useState(false);
-  const { api, isReady, isLoading, error, reload } = useSketchfab(iframeRef, userLoaded);
+  const [explosionFactor, setExplosionFactor] = useState<number>(0.0);
+  const [cutawayMode, setCutawayMode] = useState<"cutaway" | "full">("cutaway");
+  const [autoRotate, setAutoRotate] = useState<boolean>(true);
+  const [cameraPreset, setCameraPreset] = useState<"default" | "cutaway" | "core" | "pole">("default");
 
-  // Lazy loading observer
-  useEffect(() => {
-    if (userLoaded) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          setUserLoaded(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [userLoaded]);
-
-  // Handle Layer Selection and Camera Movement / Node Hiding
-  useEffect(() => {
-    if (!api || !isReady) return;
-
-    if (!selectedLayer) {
-      // Restore all nodes
-      Object.values(LAYER_NODE_MAP).forEach((config) => {
-        config.nodeIds.forEach((nodeId) => {
-          api.show(nodeId);
-        });
-      });
-      return;
-    }
-
-    const config = LAYER_NODE_MAP[selectedLayer.id];
-    if (config) {
-      // Camera lookAt
-      api.setCameraLookAt(
-        config.camera.position,
-        config.camera.target,
-        config.camera.duration || 1.2
-      );
-
-      // Node isolation logic if enabled
-      if (isolateMode) {
-        Object.entries(LAYER_NODE_MAP).forEach(([id, c]) => {
-          if (id === selectedLayer.id) {
-            c.nodeIds.forEach((nid) => api.show(nid));
-          } else {
-            c.nodeIds.forEach((nid) => api.hide(nid));
-          }
-        });
-      } else {
-        // Show all
-        Object.values(LAYER_NODE_MAP).forEach((c) => {
-          c.nodeIds.forEach((nid) => api.show(nid));
-        });
-      }
-    }
-  }, [api, isReady, selectedLayer, isolateMode]);
-
-  // Handle Reset View
-  useEffect(() => {
-    if (!api || !isReady || resetTrigger === 0) return;
-
-    // Reset camera
-    api.setCameraLookAt(
-      DEFAULT_CAMERA.position,
-      DEFAULT_CAMERA.target,
-      DEFAULT_CAMERA.duration
-    );
-
-    // Show all nodes
-    Object.values(LAYER_NODE_MAP).forEach((config) => {
-      config.nodeIds.forEach((nodeId) => {
-        api.show(nodeId);
-      });
-    });
-  }, [api, isReady, resetTrigger]);
+  const handleLayerClick = (layerId: string) => {
+    if (!onSelectLayer || !layers) return;
+    const found = layers.find((l) => l.id === layerId);
+    if (found) onSelectLayer(found);
+  };
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full aspect-[4/3] md:aspect-[16/10] max-h-[640px] rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl flex items-center justify-center"
-    >
-      {/* 3D Iframe */}
-      <iframe
-        ref={iframeRef}
-        id="sketchfab-frame"
-        title="Earth Core 3D Model by saVRee"
-        className="w-full h-full border-0 absolute inset-0 z-10"
-        allow="autoplay; fullscreen; xr-spatial-tracking"
-        allowFullScreen
+    <div className="relative w-full aspect-[4/3] md:aspect-[16/10] max-h-[640px] rounded-2xl overflow-hidden border border-slate-800/80 bg-slate-950 shadow-2xl flex items-center justify-center select-none">
+      {/* 3D Canvas */}
+      <EarthCore3D
+        selectedLayerId={selectedLayer?.id ?? null}
+        onSelectLayer={handleLayerClick}
+        isolateMode={isolateMode}
+        explosionFactor={explosionFactor}
+        cutawayMode={cutawayMode}
+        autoRotate={autoRotate}
+        cameraPreset={cameraPreset}
       />
 
-      {/* Manual load banner if not loaded yet */}
-      {!userLoaded && (
-        <div className="absolute inset-0 z-20 bg-slate-950 flex flex-col items-center justify-center p-6 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-3xl mb-4 animate-bounce">
-            🌏
+      {/* Top Left: Selected Layer Sci-Fi HUD Tag */}
+      {selectedLayer && (
+        <div className="absolute top-3 left-3 z-20 pointer-events-none animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="px-3 py-2 rounded-xl bg-slate-950/85 backdrop-blur-md border border-slate-700/80 shadow-2xl flex items-center gap-2.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
+            <div>
+              <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                {selectedLayer.name}
+                <span className="text-[10px] text-slate-400 font-mono font-normal">
+                  ({selectedLayer.englishName})
+                </span>
+              </div>
+              <div className="text-[10px] text-amber-300 font-mono">
+                {selectedLayer.depthFromKm} – {selectedLayer.depthToKm.toLocaleString()} km • {selectedLayer.state}
+              </div>
+            </div>
           </div>
-          <h3 className="text-lg font-bold text-white mb-2">
-            Mô hình 3D Lõi Trái Đất (Earth Core)
-          </h3>
-          <p className="text-xs text-slate-400 max-w-sm mb-4">
-            Mô hình trực quan hoá cấu trúc phân lớp từ Vỏ đến Lõi Trái Đất.
-          </p>
+        </div>
+      )}
+
+      {/* Top Right: Mode Switches & Camera Presets */}
+      <div className="absolute top-3 right-3 z-20 flex flex-col items-end gap-2 pointer-events-auto">
+        <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-950/80 backdrop-blur-md border border-slate-800/80 shadow-lg">
           <button
             type="button"
-            onClick={() => setUserLoaded(true)}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-medium text-xs sm:text-sm shadow-lg shadow-orange-950/50 transition-all cursor-pointer"
+            onClick={() => {
+              setCutawayMode("cutaway");
+              setCameraPreset("cutaway");
+            }}
+            className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              cutawayMode === "cutaway"
+                ? "bg-amber-500 text-slate-950 font-bold shadow-sm"
+                : "text-slate-400 hover:text-white"
+            }`}
           >
-            Tải Mô Hình 3D Ngay
+            ✂️ Cắt 90°
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setCutawayMode("full");
+              setCameraPreset("default");
+            }}
+            className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              cutawayMode === "full"
+                ? "bg-amber-500 text-slate-950 font-bold shadow-sm"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            🌐 Toàn Cầu
           </button>
         </div>
-      )}
 
-      {/* Loading overlay */}
-      {userLoaded && isLoading && (
-        <div className="absolute inset-0 z-20 bg-slate-950/90 backdrop-blur-sm flex flex-col items-center justify-center gap-3">
-          <div className="w-10 h-10 border-2 border-amber-500/20 border-t-amber-400 rounded-full animate-spin" />
-          <p className="text-xs font-medium text-slate-300">
-            Đang tải dữ liệu 3D từ Sketchfab...
-          </p>
-          <span className="text-[11px] text-slate-400">
-            Mô hình Earth Core bản quyền bởi saVRee
+        {/* Camera Quick Presets */}
+        <div className="hidden sm:flex items-center gap-1 p-1 rounded-xl bg-slate-950/70 backdrop-blur-md border border-slate-800/70 text-[10px] text-slate-400 shadow-md">
+          <button
+            type="button"
+            onClick={() => setCameraPreset("default")}
+            className={`px-2 py-0.5 rounded-md hover:text-white transition-colors cursor-pointer ${
+              cameraPreset === "default" ? "bg-slate-800 text-cyan-300 font-medium" : ""
+            }`}
+          >
+            Toàn cảnh
+          </button>
+          <button
+            type="button"
+            onClick={() => setCameraPreset("core")}
+            className={`px-2 py-0.5 rounded-md hover:text-white transition-colors cursor-pointer ${
+              cameraPreset === "core" ? "bg-slate-800 text-cyan-300 font-medium" : ""
+            }`}
+          >
+            Gần Lõi
+          </button>
+          <button
+            type="button"
+            onClick={() => setCameraPreset("pole")}
+            className={`px-2 py-0.5 rounded-md hover:text-white transition-colors cursor-pointer ${
+              cameraPreset === "pole" ? "bg-slate-800 text-cyan-300 font-medium" : ""
+            }`}
+          >
+            Bắc Cực
+          </button>
+          <button
+            type="button"
+            onClick={() => setAutoRotate(!autoRotate)}
+            className={`px-2 py-0.5 rounded-md transition-colors cursor-pointer ${
+              autoRotate ? "text-cyan-400 font-semibold" : "text-slate-500 hover:text-slate-300"
+            }`}
+          >
+            {autoRotate ? "⏸ Quay" : "▶ Quay"}
+          </button>
+        </div>
+      </div>
+
+      {/* Bottom Floating Bar: Exploded Slider & Hint */}
+      <div className="absolute bottom-3 left-3 right-3 z-20 flex flex-col sm:flex-row items-center justify-between gap-2.5 p-2.5 sm:px-4 rounded-xl bg-slate-950/85 backdrop-blur-md border border-slate-800/80 pointer-events-auto shadow-2xl">
+        {/* Explosion slider */}
+        <div className="flex items-center gap-2.5 w-full sm:w-auto">
+          <span className="text-xs font-semibold text-amber-300 whitespace-nowrap flex items-center gap-1.5">
+            <span>💥</span> Tách nổ các tầng:
+          </span>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.02"
+            value={explosionFactor}
+            onChange={(e) => setExplosionFactor(parseFloat(e.target.value))}
+            className="w-full sm:w-48 accent-amber-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg"
+            title="Kéo thanh trượt để tách rời từng lớp ruột Trái Đất"
+          />
+          <span className="text-[11px] font-mono font-bold text-amber-400 w-9 text-right">
+            {Math.round(explosionFactor * 100)}%
           </span>
         </div>
-      )}
 
-      {/* Error state fallback */}
-      {error && (
-        <div className="absolute inset-0 z-30 bg-slate-950/95 flex flex-col items-center justify-center p-6 text-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center text-xl">
-            ⚠️
-          </div>
-          <h4 className="text-sm font-bold text-white">Không thể kết nối đến Sketchfab</h4>
-          <p className="text-xs text-slate-400 max-w-md">
-            Trình duyệt hoặc mạng chặn nhúng 3D. Vui lòng kiểm tra kết nối Internet.
-          </p>
-          <div className="flex gap-2 mt-2">
-            <button
-              type="button"
-              onClick={reload}
-              className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs transition-colors"
-            >
-              Thử lại
-            </button>
-            <a
-              href="https://sketchfab.com/3d-models/earth-core-7bb72849e81f4bfab1a77a059fb422b3"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-xs transition-colors"
-            >
-              Mở trực tiếp trên Sketchfab ↗
-            </a>
-          </div>
+        {/* User Interaction Helper Guide */}
+        <div className="text-[11px] text-slate-400 flex items-center gap-2">
+          <span>🖱️ Kéo xoay 360°</span>
+          <span className="text-slate-600">•</span>
+          <span>Cuộn phóng to</span>
+          <span className="text-slate-600">•</span>
+          <span>Bấm vào tầng để chọn</span>
         </div>
-      )}
-
-      {/* Viewer controls overlay hint */}
-      {isReady && (
-        <div className="absolute bottom-3 left-3 z-20 px-2.5 py-1 rounded-md bg-slate-950/70 backdrop-blur-md border border-slate-800/80 text-[11px] text-slate-400 pointer-events-none flex items-center gap-1.5">
-          <span>🖱️ Kéo để xoay | Cuộn để phóng to</span>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
