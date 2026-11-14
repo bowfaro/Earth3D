@@ -26,6 +26,25 @@ export function latLonToVector3(
   return new THREE.Vector3(x, y, z);
 }
 
+/**
+ * Fast version that writes directly to an existing target Vector3 without heap allocations
+ */
+export function latLonToVector3Fast(
+  lat: number,
+  lon: number,
+  radius: number,
+  target: THREE.Vector3
+): THREE.Vector3 {
+  const phi = (90 - lat) * (Math.PI / 180);
+  const theta = (lon + 180) * (Math.PI / 180);
+
+  target.x = -(radius * Math.sin(phi) * Math.cos(theta));
+  target.z = radius * Math.sin(phi) * Math.sin(theta);
+  target.y = radius * Math.cos(phi);
+
+  return target;
+}
+
 // Distinct palette for major and minor tectonic plates
 const PLATE_PALETTE = [
   "#264653", "#2a9d8f", "#e76f51", "#f4a261", "#457b9d",

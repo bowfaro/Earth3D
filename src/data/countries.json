@@ -46,7 +46,7 @@
     "flag": "🇺🇸",
     "lat": 37.0,
     "lon": -95.7,
-    "plate": "Mảng Bắc Mỹ",
+    "plate": "Mảng Bắc Mỹ & Mảng Thái Bình Dương (California, Hawaii, Alaska)",
     "seismicNote": "Bờ Tây (California, Alaska) nằm sát đứt gãy trượt San Andreas và đới Cascadia, có nguy cơ động đất rất cao."
   },
   {
@@ -86,7 +86,7 @@
     "flag": "🇮🇸",
     "lat": 64.9,
     "lon": -19.0,
-    "plate": "Sống núi giữa Đại Tây Dương (Ranh giới Phân kỳ)",
+    "plate": "Sống núi giữa Đại Tây Dương (Ranh giới Phân kỳ Mảng Bắc Mỹ và Mảng Âu-Á)",
     "seismicNote": "Hai mảng Bắc Mỹ và Âu-Á tách xa nhau ~2.5 cm/năm, magma liên tục dâng trào sinh ra núi lửa phun trào và động đất nông."
   },
   {
@@ -226,7 +226,7 @@
     "flag": "🇵🇪",
     "lat": -9.1,
     "lon": -75.0,
-    "plate": "Đới hút chìm Mảng Nazca",
+    "plate": "Mảng Nam Mỹ (đới hút chìm Mảng Nazca cắm dưới)",
     "seismicNote": "Mảng Nazca chìm xuống tạo nên dãy Andes hùng vĩ và nhiều trận động đất lớn lịch sử."
   },
   {
@@ -236,7 +236,7 @@
     "flag": "🇪🇨",
     "lat": -1.8,
     "lon": -78.1,
-    "plate": "Đới hút chìm Mảng Nazca",
+    "plate": "Mảng Nam Mỹ (đới hút chìm Mảng Nazca cắm dưới)",
     "seismicNote": "Nằm ngay trên đới hút chìm, tập trung nhiều núi lửa hoạt động mạnh (Cotopaxi, Tungurahua) và địa chấn cao."
   },
   {
@@ -286,7 +286,7 @@
     "flag": "🇬🇷",
     "lat": 39.0,
     "lon": 22.0,
-    "plate": "Đới hút chìm Vòng cung Hellenic",
+    "plate": "Mảng Âu - Á (đới hút chìm Vòng cung Hellenic tiếp giáp Mảng Phi)",
     "seismicNote": "Vùng biển Aegean là khu vực có hoạt động địa chấn dày đặc nhất châu Âu."
   },
   {

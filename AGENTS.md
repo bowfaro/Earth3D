@@ -246,3 +246,13 @@ Mục tiêu sư phạm: học sinh **nhìn thấy** động đất tập trung d
 - Commit nhỏ, message rõ ràng theo phase (ví dụ `feat(viewer): init sketchfab client`).
 - Gặp điểm chưa rõ hoặc cần thêm dependency thì hỏi, không tự đoán.
 - Sau mỗi phase, tóm tắt ngắn: đã làm gì, kết quả quality gate, việc tiếp theo.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

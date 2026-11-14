@@ -8,6 +8,9 @@ import { EarthViewer } from "@/components/EarthViewer";
 import { ControlsPanel } from "@/components/tectonics/ControlsPanel";
 import { QuakeInfo } from "@/components/tectonics/QuakeInfo";
 import { CountryInfo, CountryData } from "@/components/tectonics/CountryInfo";
+import { PlateInfo } from "@/components/tectonics/PlateInfo";
+import { MajorPlate } from "@/lib/plates";
+import countriesRaw from "@/data/countries.json";
 import { BoundaryExplainer } from "@/components/tectonics/BoundaryExplainer";
 import { GuidedTour } from "@/components/tectonics/GuidedTour";
 import { GeologyQuiz } from "@/components/GeologyQuiz";
@@ -44,6 +47,7 @@ export default function HomePage() {
   const [showLabels, setShowLabels] = useState<boolean>(true);
   const [showCountries, setShowCountries] = useState<boolean>(true);
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
+  const [selectedPlate, setSelectedPlate] = useState<MajorPlate | null>(null);
 
   const [period, setPeriod] = useState<FeedPeriod>("week");
   const [magnitude, setMagnitude] = useState<FeedMagnitude>("4.5");
@@ -174,13 +178,36 @@ export default function HomePage() {
                   showLabels={showLabels}
                   showCountries={showCountries}
                   selectedCountry={selectedCountry}
-                  onSelectCountry={setSelectedCountry}
+                  onSelectCountry={(c) => {
+                    setSelectedCountry(c);
+                    setSelectedQuake(null);
+                  }}
+                  selectedPlate={selectedPlate}
+                  onSelectPlate={(p) => {
+                    setSelectedPlate(p);
+                    setSelectedQuake(null);
+                    if (p) setShowCountries(true);
+                  }}
                   earthquakes={filteredQuakes}
                   onSelectQuake={(q) => {
                     setSelectedQuake(q);
                     setSelectedCountry(null);
                   }}
                 />
+
+                {/* Plate info card with countries list when a plate is clicked */}
+                {selectedPlate && (
+                  <PlateInfo
+                    plate={selectedPlate}
+                    allCountries={countriesRaw as CountryData[]}
+                    selectedCountry={selectedCountry}
+                    onSelectCountry={(c) => {
+                      setSelectedCountry(c);
+                      setSelectedQuake(null);
+                    }}
+                    onClose={() => setSelectedPlate(null)}
+                  />
+                )}
 
                 {/* Country info popup if selected */}
                 {selectedCountry && (
@@ -228,6 +255,11 @@ export default function HomePage() {
                   quakeCount={filteredQuakes.length}
                   isFallback={isFallback}
                   onSelectBoundaryType={setSelectedBoundaryType}
+                  selectedPlate={selectedPlate}
+                  onSelectPlate={(p) => {
+                    setSelectedPlate(p);
+                    if (p) setShowCountries(true);
+                  }}
                 />
 
                 <GuidedTour

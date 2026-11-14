@@ -2,7 +2,6 @@
 
 import React, { useMemo } from "react";
 import * as THREE from "three";
-import { latLonToVector3 } from "@/lib/geo";
 
 interface BoundaryFeature {
   properties: {
@@ -27,12 +26,14 @@ interface BoundaryLayerProps {
   radius?: number;
 }
 
+const DEG2RAD = Math.PI / 180;
+
 export function BoundaryLayer({
   boundariesData,
   visible,
   radius = 2.012,
 }: BoundaryLayerProps) {
-  // Separate geometries for each boundary type
+  // Separate geometries for each boundary type (optimized with zero Vector3 allocations)
   const { divergentGeo, convergentGeo, transformGeo } = useMemo(() => {
     if (!boundariesData?.features) {
       return {
@@ -65,10 +66,21 @@ export function BoundaryLayer({
         // Avoid wraparound lines across date line (> 180 deg)
         if (Math.abs(lon1 - lon2) > 180) continue;
 
-        const v1 = latLonToVector3(lat1, lon1, radius);
-        const v2 = latLonToVector3(lat2, lon2, radius);
+        const phi1 = (90 - lat1) * DEG2RAD;
+        const theta1 = (lon1 + 180) * DEG2RAD;
+        const sinPhi1 = Math.sin(phi1);
+        const x1 = -(radius * sinPhi1 * Math.cos(theta1));
+        const z1 = radius * sinPhi1 * Math.sin(theta1);
+        const y1 = radius * Math.cos(phi1);
 
-        targetPos.push(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z);
+        const phi2 = (90 - lat2) * DEG2RAD;
+        const theta2 = (lon2 + 180) * DEG2RAD;
+        const sinPhi2 = Math.sin(phi2);
+        const x2 = -(radius * sinPhi2 * Math.cos(theta2));
+        const z2 = radius * sinPhi2 * Math.sin(theta2);
+        const y2 = radius * Math.cos(phi2);
+
+        targetPos.push(x1, y1, z1, x2, y2, z2);
       }
     });
 

@@ -1,9 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Literata, Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-sans",
+  subsets: ["latin", "vietnamese"],
+});
+
+const beVietnamPro = Be_Vietnam_Pro({
+  variable: "--font-body",
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin", "vietnamese"],
+});
+
+const literata = Literata({
+  variable: "--font-display",
   subsets: ["latin", "vietnamese"],
 });
 
@@ -47,7 +58,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="vi" className={`${inter.variable} ${jetbrainsMono.variable} dark h-full antialiased`}>
+    <html
+      lang="vi"
+      className={`${inter.variable} ${beVietnamPro.variable} ${literata.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col bg-[#07090e] text-slate-100 selection:bg-amber-500/30 selection:text-amber-200">
         {children}
       </body>

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { FeedPeriod, FeedMagnitude } from "@/lib/usgs";
+import { MajorPlate, MAJOR_PLATES } from "@/lib/plates";
 
 interface ControlsPanelProps {
   showPlates: boolean;
@@ -23,6 +24,8 @@ interface ControlsPanelProps {
   quakeCount: number;
   isFallback: boolean;
   onSelectBoundaryType?: (typeId: string) => void;
+  selectedPlate?: MajorPlate | null;
+  onSelectPlate?: (plate: MajorPlate | null) => void;
 }
 
 export function ControlsPanel({
@@ -45,6 +48,8 @@ export function ControlsPanel({
   quakeCount,
   isFallback,
   onSelectBoundaryType,
+  selectedPlate,
+  onSelectPlate,
 }: ControlsPanelProps) {
   const [showAdvanced, setShowAdvanced] = useState<boolean>(true);
 
@@ -133,12 +138,24 @@ export function ControlsPanel({
                 ? "bg-emerald-500/15 border-emerald-500/50 text-emerald-200 shadow-sm"
                 : "bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200"
             }`}
+            title="Bật/Tắt hiển thị vị trí các quốc gia và cờ trên quả cầu 3D"
           >
             <span className="text-lg">🚩</span>
             <div>
-              <span className="font-semibold block text-xs">Quốc Gia</span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-semibold block text-xs">Quốc Gia</span>
+                <span
+                  className={`w-1.5 h-1.5 rounded-full ${
+                    showCountries ? "bg-emerald-400 animate-pulse" : "bg-slate-600"
+                  }`}
+                />
+              </div>
               <span className="text-[10px] opacity-75">
-                {showCountries ? "Đang hiện cờ" : "Đang tắt"}
+                {showCountries
+                  ? selectedPlate
+                    ? "Hiện theo mảng"
+                    : "Đang hiện cờ"
+                  : "Đang tắt"}
               </span>
             </div>
           </button>
@@ -223,6 +240,54 @@ export function ControlsPanel({
               </span>
             </div>
           </button>
+        </div>
+
+        {/* Quick Tectonic Plate Explorer (Click plate to show countries) */}
+        <div className="pt-2 flex flex-col gap-1.5">
+          <div className="flex items-center justify-between text-[11px]">
+            <span className="text-cyan-300 font-semibold flex items-center gap-1">
+              <span>🎯</span> Chọn mảng để xem quốc gia:
+            </span>
+            {selectedPlate && (
+              <button
+                type="button"
+                onClick={() => onSelectPlate?.(null)}
+                className="text-slate-400 hover:text-white underline cursor-pointer text-[10px]"
+              >
+                Bỏ chọn ✕
+              </button>
+            )}
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+            {MAJOR_PLATES.map((p) => {
+              const isSelected = selectedPlate?.id === p.id;
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => {
+                    if (isSelected) {
+                      onSelectPlate?.(null);
+                    } else {
+                      onSelectPlate?.(p);
+                    }
+                  }}
+                  className={`px-2 py-1.5 rounded-lg border text-left text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
+                    isSelected
+                      ? "bg-cyan-500 text-slate-950 font-bold border-white ring-2 ring-cyan-300 shadow-md shadow-cyan-500/20"
+                      : "bg-slate-950/80 hover:bg-slate-800 border-slate-800 text-slate-300 hover:text-white"
+                  }`}
+                  title={`${p.name} (${p.en}) - Bấm để hiện các quốc gia`}
+                >
+                  <span
+                    className="w-2 h-2 rounded-full shrink-0"
+                    style={{ backgroundColor: p.color }}
+                  />
+                  <span className="truncate">{p.name}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 

@@ -186,7 +186,7 @@ export function EarthStructureViewer({ onSwitchToTectonics }: EarthStructureView
     try {
       renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     } catch {
-      setWebglError(true);
+      setTimeout(() => setWebglError(true), 0);
       return;
     }
 

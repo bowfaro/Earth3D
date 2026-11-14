@@ -3,7 +3,7 @@
 import React, { useMemo, useRef, useEffect } from "react";
 import * as THREE from "three";
 import { Earthquake } from "@/lib/usgs";
-import { latLonToVector3 } from "@/lib/geo";
+import { latLonToVector3Fast } from "@/lib/geo";
 
 interface QuakeLayerProps {
   earthquakes: Earthquake[];
@@ -14,6 +14,8 @@ interface QuakeLayerProps {
 
 const dummyMatrix = new THREE.Matrix4();
 const dummyColor = new THREE.Color();
+const dummyScale = new THREE.Vector3();
+const tempPos = new THREE.Vector3();
 
 export function QuakeLayer({
   earthquakes,
@@ -30,7 +32,7 @@ export function QuakeLayer({
     );
   }, [earthquakes]);
 
-  // Update instanced matrices and colors when quakes change
+  // Update instanced matrices and colors when quakes change (zero heap allocations)
   useEffect(() => {
     if (!meshRef.current || validQuakes.length === 0) return;
 
@@ -38,15 +40,16 @@ export function QuakeLayer({
     meshRef.current.count = count;
 
     validQuakes.forEach((q, i) => {
-      const pos = latLonToVector3(q.lat, q.lon, radius);
+      latLonToVector3Fast(q.lat, q.lon, radius, tempPos);
 
       // Distinct scaling by magnitude: M4.5 = ~0.02, M6 = ~0.045, M7+ = ~0.075
       const baseScale = q.mag >= 7.0 ? 0.038 : q.mag >= 5.5 ? 0.026 : 0.018;
       const magFactor = Math.pow(1.28, Math.max(0, q.mag - 4));
       const scale = THREE.MathUtils.clamp(baseScale * magFactor, 0.014, 0.08);
 
-      dummyMatrix.makeTranslation(pos.x, pos.y, pos.z);
-      dummyMatrix.scale(new THREE.Vector3(scale, scale, scale));
+      dummyScale.set(scale, scale, scale);
+      dummyMatrix.makeTranslation(tempPos.x, tempPos.y, tempPos.z);
+      dummyMatrix.scale(dummyScale);
       meshRef.current?.setMatrixAt(i, dummyMatrix);
 
       // Color by depth category:
@@ -84,21 +87,9 @@ export function QuakeLayer({
           onSelectQuake?.(validQuakes[e.instanceId]);
         }
       }}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        document.body.style.cursor = "pointer";
-      }}
-      onPointerOut={() => {
-        document.body.style.cursor = "auto";
-      }}
     >
-      <sphereGeometry args={[1, 14, 14]} />
-      <meshStandardMaterial
-        roughness={0.25}
-        metalness={0.2}
-        emissive="#1e1b4b"
-        emissiveIntensity={0.4}
-      />
+      <sphereGeometry args={[1, 8, 8]} />
+      <meshBasicMaterial toneMapped={false} />
     </instancedMesh>
   );
 }
